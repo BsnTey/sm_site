@@ -25,6 +25,7 @@ const getConfig = async (): Promise<ZennoConfig> => {
 
 onMounted(async () => {
   const config = await getConfig();
+  //@ts-ignore
   zennoConfig.value = [...config.mobile.easy, ...config.mobile.heavy];
    originalZennoConfig.value= JSON.parse(JSON.stringify(zennoConfig.value));
 

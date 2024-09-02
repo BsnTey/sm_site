@@ -24,6 +24,7 @@ const router = createRouter({
     ]
 });
 
+//@ts-ignore
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     if (to.meta.requiresAuth && !authStore.apiKey) {

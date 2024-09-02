@@ -9,6 +9,7 @@ import router from "../../router";
 const authStore = useAuthStore();
 const ruleFormRef = ref<FormInstance>();
 
+//@ts-ignore
 const validateApiKey = (rule: any, value: any, callback: any) => {
   // Проверка API Key (например, по длине или формату)
   if (value.length < 10) {
@@ -31,6 +32,7 @@ const ruleForm = reactive({
 
 const handleLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
+  //@ts-ignore
   formEl.validate(async (valid) => {
     if (valid) {
       await authStore.login(ruleForm.apiKey);
