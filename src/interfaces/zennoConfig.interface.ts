@@ -24,12 +24,5 @@ export interface Course {
     active: boolean;
 }
 
-export interface CourseWithDisabled extends Course {
-    disabled: boolean;
-}
 
-export interface HeavyItemWithDisabled extends EasyItem {
-    courses: CourseWithDisabled[];
-}
-
-export interface ConcatZennoConfig extends EasyItem, HeavyItemWithDisabled {}
+export interface ConcatZennoConfig extends EasyItem, HeavyItem {}

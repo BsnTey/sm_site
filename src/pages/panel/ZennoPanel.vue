@@ -16,7 +16,7 @@ import axios from 'axios';
 import {useAuthStore} from '../../stores/auth';
 import {scriptToCopy} from '../../utils/scriptToCopy.ts';
 import {CourseList, CourseSM} from '../../interfaces/coursesResponse.interface.ts';
-import {debounce, isEqualWith} from "lodash";
+import { isEqualWith } from "lodash";
 
 const authStore = useAuthStore();
 const baseUrl = import.meta.env.VITE_ZENNO_API_URL;
@@ -43,6 +43,7 @@ const getCoursesFromAccount = async (accountId: string): Promise<CourseList> => 
 
 onMounted(async () => {
   const config = await getConfig();
+  //@ts-ignore
   zennoConfig.value = [...config.mobile.easy, ...config.mobile.heavy];
   originalZennoConfig.value = JSON.parse(JSON.stringify(zennoConfig.value));
 });
@@ -50,7 +51,7 @@ onMounted(async () => {
 const currentActiveConfig = computed(() => zennoConfig.value.find(todo => todo.active)?.todo);
 
 const isChangedConfig = computed(() => {
-  return !isEqualWith(zennoConfig.value, originalZennoConfig.value, (value1, value2, key) => {
+  return !isEqualWith(zennoConfig.value, originalZennoConfig.value, (_value1, _value2, key) => {
     if (key === 'disabled') {
       return true;
     }
