@@ -125,7 +125,16 @@ watch(
 const copyToClipboard = async () => {
   try {
     const script = scriptToCopy(keys.value);
-    await navigator.clipboard.writeText(script);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(script);
+    } else {
+      const textarea = document.createElement('textarea');
+      textarea.value = script;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
     ElMessage({
       message: 'Текст скопирован!',
       type: 'success'
