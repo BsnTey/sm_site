@@ -2,11 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../pages/auth/LoginPage.vue';
 import ApplicationPay from '../pages/auth/ApplicationPay.vue';
 import ZennoPanel from "../pages/panel/ZennoPanel.vue";
-import {useAuthStore} from "../stores/auth.ts";
-
+import { useAuthStore } from "../stores/auth.ts";
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('/panel'),
     routes: [
         {
             path: '/login',
@@ -31,6 +30,7 @@ const router = createRouter({
         }
     ]
 });
+
 
 //@ts-ignore
 router.beforeEach((to, from, next) => {
