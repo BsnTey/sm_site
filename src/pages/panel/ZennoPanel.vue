@@ -14,7 +14,6 @@ import {
 import {ConcatZennoConfig, Course, ZennoConfig} from '../../interfaces/zennoConfig.interface.ts';
 import axios from 'axios';
 import {useAuthStore} from '../../stores/auth';
-import {scriptToCopy} from '../../utils/scriptToCopy.ts';
 import {CourseList, CourseSM} from '../../interfaces/coursesResponse.interface.ts';
 import { isEqualWith } from "lodash";
 
@@ -122,28 +121,6 @@ watch(
     }
 );
 
-const copyToClipboard = async () => {
-  try {
-    const script = scriptToCopy(keys.value);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(script);
-    } else {
-      const textarea = document.createElement('textarea');
-      textarea.value = script;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-    }
-    ElMessage({
-      message: 'Текст скопирован!',
-      type: 'success'
-    });
-  } catch (err) {
-    // Обработка ошибки
-  }
-};
-
 const watchAccountId = async (accountInput: string) => {
   if (!accountInput) {
     courseList.value = [];
@@ -229,19 +206,6 @@ const isDisabled = (courseFromCheckbox: Course) => {
 
       </div>
 
-    </div>
-
-    <div class="way__wrap">
-      <div class="hamster-block">
-        <el-input
-            v-model="listKeysArea"
-            style="width: 240px"
-            :rows="5"
-            type="textarea"
-            placeholder="Please input"
-        />
-        <el-button type="primary" @click="copyToClipboard">Скопировать</el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -360,10 +324,5 @@ const isDisabled = (courseFromCheckbox: Course) => {
   align-self: center;
 }
 
-.hamster-block {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 </style>
