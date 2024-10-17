@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../pages/auth/LoginPage.vue';
-import ApplicationPay from '../pages/auth/ApplicationPay.vue';
+import ApplicationPay from '../pages/application-pay/ApplicationPay.vue';
 import ZennoPanel from "../pages/panel/ZennoPanel.vue";
 import { useAuthStore } from "../stores/auth.ts";
 
