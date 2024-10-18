@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, onMounted } from 'vue';
+import {ref, onMounted, watch} from 'vue';
 import {
   ElContainer,
   ElHeader,
@@ -13,6 +13,9 @@ import {
   ElDialog,
   ElSelect,
   ElOption,
+  ElBadge,
+  ElRadioGroup,
+  ElRadioButton,
   ElNotification
 } from 'element-plus';
 import axios from "axios";
@@ -24,6 +27,9 @@ const ZENNO_API_KEY = authStore.apiKey;
 const baseUrl = import.meta.env.VITE_ZENNO_API_URL;
 
 const applications = ref<Payment[]>([]);
+const viewApplications = ref<Payment[]>([]);
+const selectedViewApplications = ref('Transfered');
+
 const dialogVisible = ref(false);
 const receiptUrl = ref('');
 const paymentId = ref('');
@@ -32,6 +38,7 @@ const statusDialogVisible = ref(false);
 const selectedStatus = ref('');
 const currentApplication = ref<Payment | null>(null);
 const statusOptions = ['Created', 'Proceedings', 'Transfered', 'Completed', 'Cancelled'];
+const countTransferedBadge = ref(0);
 
 const fetchApplications = async () => {
   const headers = {zenno: ZENNO_API_KEY};
@@ -132,13 +139,36 @@ const clearCurrentApplication = () => {
 onMounted(() => {
   fetchApplications();
 });
+
+const filterPayments = () => {
+  viewApplications.value = applications.value.filter(payment => {
+    if (selectedViewApplications.value == "All") return true;
+    return payment.status === selectedViewApplications.value
+  });
+  countTransferedBadge.value = applications.value.filter(payment => payment.status === 'Transfered').length;
+}
+
+
+watch([selectedViewApplications, applications], filterPayments);
+
 </script>
 
 <template>
   <el-container>
     <el-header>Заявки на пополнение</el-header>
+    <el-radio-group v-model="selectedViewApplications">
+      <el-radio-button label="Все" value="All" />
+      <el-badge v-if="countTransferedBadge > 0" :value="countTransferedBadge" class="item" type="primary">
+        <el-radio-button label="Переведеные" value="Transfered" />
+      </el-badge>
+      <el-radio-button v-else label="Переведеные" value="Transfered" />
+      <el-radio-button label="Подтвержденые" value="Completed" />
+      <el-radio-button label="Разбирательство" value="Proceedings" />
+      <el-radio-button label="Созданные" value="Created" />
+      <el-radio-button label="Отмененные" value="Cancelled" />
+    </el-radio-group>
     <el-main>
-      <el-table :data="applications" style="width: 100%">
+      <el-table :data="viewApplications" style="width: 100%">
 <!--        <el-table-column prop="id" label="ID пользователя" width="180"/>-->
         <el-table-column prop="userTelegramName" label="Username" width="180"/>
         <el-table-column prop="amount" label="Сумма пополнения" width="180"/>
