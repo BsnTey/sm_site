@@ -184,8 +184,18 @@ const isDisabled = (courseFromCheckbox: Course) => {
                   </el-button>
                 </el-button-group>
                 <div v-for="course in courses" :key="course.id" class="bonusCount-group__btn-count">
-                  <el-checkbox class="reset-margin" :label="course.count" :disabled="isDisabled(course)"
-                               v-model="course.active"/>
+                  <el-tooltip
+                      effect="dark"
+                      :content="course.name"
+                  placement="top"
+                  >
+                  <el-checkbox
+                      class="reset-margin"
+                      :label="course.count"
+                      :disabled="isDisabled(course)"
+                      v-model="course.active"
+                  />
+                  </el-tooltip>
                 </div>
               </div>
             </div>
