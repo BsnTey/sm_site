@@ -188,7 +188,7 @@ const isDisabled = (courseFromCheckbox: Course) => {
                   <el-tooltip
                       effect="dark"
                       :content="course.name"
-                      :open-delay="1000"
+                      :show-after="1000"
                       placement="top"
                   >
                   <el-checkbox
