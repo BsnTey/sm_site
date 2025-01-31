@@ -9,6 +9,7 @@ import {
   ElButton,
   ElCheckbox,
   ElInput,
+  ElTooltip,
   ElMessage
 } from 'element-plus';
 import {ConcatZennoConfig, Course, ZennoConfig} from '../../interfaces/zennoConfig.interface.ts';
